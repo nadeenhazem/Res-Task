@@ -20,6 +20,7 @@ function Signup() {
     City: "",
 
     PhoneNumber: "",
+    Salutation: "",
     termsAndConditions: false,
   };
   const onSubmit = (values) => {
@@ -30,8 +31,6 @@ function Signup() {
       .min(2, "Too Short!")
       .max(10, "Too Long!")
       .required("Required"),
-    // lname: Yup.string().required("Required!"),
-
     email: Yup.string().email("Invalid Email Formate !").required("Required!"),
     Password: Yup.string()
       .required("Please enter a password")
@@ -166,27 +165,76 @@ function Signup() {
                       placeholder="City"
                     />
                   </div>
-                  <PhoneInput
-                    defaultCountry="ua"
-                    value={phone}
-                    onChange={(value) => {
-                      setPhone(value);
-                      initialValues.Country = value;
-                    }}
-                    name="Country"
-                  />
-                  {console.log(phone, "after div")}
-                  <div>
+                  <div className="signUp-form">
+                    Country
+                    <PhoneInput
+                      defaultCountry="ua"
+                      value={phone}
+                      onChange={(value) => {
+                        setPhone(value);
+                        initialValues.Country = value;
+                      }}
+                      name="Country"
+                    />
+                  </div>
+                  <div className="signUp-form">
+                    <div>Salutation</div>
+                    <div role="group">
+                      <label>
+                        <Field type="radio" name="Salutation" value="Mr" />
+                        Mr
+                      </label>
+                      <label>
+                        <Field type="radio" name="Salutation" value="Miss" />
+                        Miss
+                      </label>
+                      <label>
+                        <Field type="radio" name="Salutation" value="Mrs" />
+                        Mrs
+                      </label>
+                    </div>
+                  </div>
+                  <div className="signUp-form">
+                    <label htmlFor="BirthDate" className="label">
+                      BirthDate
+                    </label>
+                    <Field
+                      type="text"
+                      id="BirthDate"
+                      name="BirthDate"
+                      className="form-Field email-field"
+                      placeholder="MM/DD/YY"
+                    />
+                  </div>
+                  <div className="signUp-form">
+                    <div
+                      className="required check-style"
+                      style={{ fontSize: "12px" }}
+                    >
+                      "Add your date of birth if you want receive FREE gifts
+                      in your birthday"
+                    </div>
                     <label>
-                      Terms and conditions
-                      <Field type="checkbox" name="termsAndConditions" />
+                      <Field type="checkbox" name="termsAndConditions" />I
+                      Accept Rescounts
+                      <span className="required check-style">
+                        Terms & Conditions
+                      </span>{" "}
+                      And
+                      <span className="required check-style">
+                        {" "}
+                        Privacy Policy
+                      </span>
                     </label>
                     <ErrorMessage
                       name="termsAndConditions"
                       component={TextError}
                     />
                   </div>
-                  <button type="submit">Submit</button>
+
+                  <button type="submit" className="btn-Submit">
+                    Sign up
+                  </button>
                 </Form>
               </Formik>
             </div>
