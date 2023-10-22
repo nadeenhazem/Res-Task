@@ -1,12 +1,20 @@
 .signUp-container {
-  background-color: olivedrab;
   min-height: 100vh;
   color: #474746;
-  /* margin-right: 20%; */
+
   margin-left: 0%;
 }
+.main-container {
+  width: 80%;
+}
 .signUp-img {
-  background-image: url("./img/Mask\ Group\ 515.png");
+  background-image: url("./img/SignUp.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 100%;
+}
+.Login-img {
+  background-image: url("./img/Login.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100%;
@@ -17,11 +25,13 @@
 .required {
   color: #d80073;
 }
+
 .signUp-Header {
   color: #474746;
   font-size: 24px;
   font-weight: 600;
   text-transform: capitalize;
+  text-align: center;
 }
 .signUp-login-Link {
   text-decoration: underline;
@@ -31,7 +41,7 @@
 }
 .signUp-line {
   display: inline-block;
-  width: 45%;
+  width: 42%;
 
   margin-bottom: 3px;
 
@@ -63,20 +73,58 @@
 .name-field {
   width: 100%;
 }
+.Fname {
+  margin-left: -4px;
+}
 .btn-Submit {
-  margin: 10px;
   background-color: #e9d023;
-  color: #474746;
-  font-weight: 500;
-  font-size: 18px;
-  text-align: center;
-  width: 95%;
-  border-radius: 5px;
-  padding: 5px;
   border-style: none;
+}
+.main-btn {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  width: 95%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  color: #474746;
+  margin: 10px;
+}
+.btn-guest {
+  background-color: transparent;
+  border: 1px solid #e9d023;
+}
+.Salutation {
+  max-width: 70%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
 }
 
 .check-style {
   font-size: 16px;
   font-weight: 700;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.react-international-phone-input-container
+  .react-international-phone-country-selector-button {
+  border-right-style: none;
+}
+.react-international-phone-input-container .react-international-phone-input {
+  color: #a5a5a5;
+  max-width: 50%;
+  caret-color: transparent;
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    margin: 10px auto !important;
+    max-width: fit-content;
+  }
+  .main-container {
+    width: 100%;
+  }
 }

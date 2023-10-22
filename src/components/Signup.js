@@ -9,20 +9,21 @@ import { Link } from "react-router-dom";
 import "react-international-phone/style.css";
 import { PhoneInput } from "react-international-phone";
 function Signup() {
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState("+1");
 
   const initialValues = {
-    Country: phone,
     email: "",
     fname: "",
     lname: "",
     Password: "",
     City: "",
+    Country: phone,
 
     PhoneNumber: "",
     Salutation: "",
     termsAndConditions: false,
   };
+
   const onSubmit = (values) => {
     console.log("data values", values);
   };
@@ -60,20 +61,21 @@ function Signup() {
     <div className="container-fluid">
       <div className="row justify-content-end">
         <div className="col-lg-5 col-md-5 signUp-container">
-          <div style={{ backgroundColor: "#fff", width: "80%" }}>
-            <div className="mt-2 mb-3 mx-1">
+          <div className="main-container">
+            <div className="mt-2 mb-3 mx-1 logo">
               <img src={logo} alt="logo" />
             </div>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex  justify-content-md-between justify-content-center">
               <span className="signUp-Header"> Create Account</span>
-              <span className="required mt-2">*Required</span>
+              <span className="required mt-2 d-none d-md-block">*Required</span>
             </div>
-            <div>
+            <div className="d-flex mx-1 justify-content-md-start justify-content-center">
               <span> Already have account?</span>
               <Link to={"/login"} className="required signUp-login-Link">
                 Login
               </Link>
             </div>
+
             <div
               style={{
                 color: "#A5A5A5",
@@ -108,12 +110,12 @@ function Signup() {
                     <ErrorMessage name="email" component={TextError} />
                   </div>
                   <div
-                    className="row"
+                    className="row "
                     style={{
-                      margin: "auto",
+                      marginLeft: "0px",
                     }}
                   >
-                    <div className=" col-6 ">
+                    <div className=" col-6 Fname">
                       <label htmlFor="fname" className="label">
                         First Name <span className="required">*</span>
                       </label>
@@ -165,31 +167,69 @@ function Signup() {
                       placeholder="City"
                     />
                   </div>
-                  <div className="signUp-form">
-                    Country
-                    <PhoneInput
-                      defaultCountry="ua"
-                      value={phone}
-                      onChange={(value) => {
-                        setPhone(value);
-                        initialValues.Country = value;
-                      }}
-                      name="Country"
-                    />
+                  <div
+                    className="row "
+                    style={{
+                      marginLeft: "0px",
+                    }}
+                  >
+                    <div className=" col-3 Fname">
+                      <label htmlFor="Country" className="label">
+                        Country
+                      </label>
+
+                      <PhoneInput
+                        name="Country"
+                        // onChange={(value) => {
+                        //   initialValues.Country = value;
+                        // }}
+                        onChange={setPhone}
+                        value={phone}
+                      />
+                    </div>
+                    <div className=" col-9 ">
+                      <label htmlFor="PhoneNumber" className="label">
+                        Mobile Number
+                      </label>
+                      <Field
+                        type="text"
+                        id="PhoneNumber"
+                        name="PhoneNumber"
+                        className="form-Field name-field"
+                        placeholder="PhoneNumber"
+                      />
+                      <ErrorMessage name="PhoneNumber" component={TextError} />
+                    </div>
                   </div>
-                  <div className="signUp-form">
-                    <div>Salutation</div>
-                    <div role="group">
+
+                  <div className="signUp-form ">
+                    <div className="label">Salutation</div>
+                    <div role="group" className="Salutation">
                       <label>
-                        <Field type="radio" name="Salutation" value="Mr" />
+                        <Field
+                          type="radio"
+                          name="Salutation"
+                          value="Mr"
+                          className="cursor-pointer"
+                        />
                         Mr
                       </label>
                       <label>
-                        <Field type="radio" name="Salutation" value="Miss" />
+                        <Field
+                          type="radio"
+                          name="Salutation"
+                          value="Miss"
+                          className="cursor-pointer"
+                        />
                         Miss
                       </label>
                       <label>
-                        <Field type="radio" name="Salutation" value="Mrs" />
+                        <Field
+                          type="radio"
+                          name="Salutation"
+                          value="Mrs"
+                          className="cursor-pointer"
+                        />
                         Mrs
                       </label>
                     </div>
@@ -199,7 +239,7 @@ function Signup() {
                       BirthDate
                     </label>
                     <Field
-                      type="text"
+                      type="date"
                       id="BirthDate"
                       name="BirthDate"
                       className="form-Field email-field"
@@ -215,8 +255,12 @@ function Signup() {
                       in your birthday"
                     </div>
                     <label>
-                      <Field type="checkbox" name="termsAndConditions" />I
-                      Accept Rescounts
+                      <Field
+                        type="checkbox"
+                        name="termsAndConditions"
+                        className="cursor-pointer"
+                      />
+                      I Accept Rescounts
                       <span className="required check-style">
                         Terms & Conditions
                       </span>{" "}
@@ -231,14 +275,19 @@ function Signup() {
                       component={TextError}
                     />
                   </div>
-
-                  <button type="submit" className="btn-Submit">
+                  <div className=" d-block d-md-none text-muted text-center mb-3 mt-2">
+                    @2022 Rescounts All rights reserved
+                  </div>
+                  <button type="submit" className="main-btn btn-Submit ">
                     Sign up
                   </button>
                 </Form>
               </Formik>
             </div>
           </div>
+          <footer className="d-none d-md-block text-muted mx-2">
+            @2022 Rescounts All rights reserved
+          </footer>
         </div>
 
         <div className="col-lg-6 col-md-7 signUp-img d-none d-sm-block "></div>
