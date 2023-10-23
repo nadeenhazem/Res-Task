@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../App.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextError from "./TextError";
 import * as Yup from "yup";
 import logo from "../img/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchData } from "../Redux/SignupSlice";
 function Login() {
+  const UserData = useSelector((state) => state.signup);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const initialValues = {
     email: "",
     Password: "",
     RememberMe: false,
   };
 
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
+
   const onSubmit = (values) => {
-    console.log("data values", values);
+    navigate("/");
+    console.log(values);
   };
   const validationSchema = Yup.object({
     email: Yup.string().email("Invalid Email Formate !").required("Required!"),
@@ -32,6 +43,7 @@ function Login() {
         "Your password must have at least 1   uppercase character "
       ),
   });
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-end">

@@ -1,15 +1,19 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import "../App.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import TextError from "./TextError";
 import * as Yup from "yup";
 import logo from "../img/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-international-phone/style.css";
 import { PhoneInput } from "react-international-phone";
+import { AddNewData } from "../Redux/SignupSlice";
 function Signup() {
   const [phone, setPhone] = useState("+1");
+  useSelector((state) => state.signup);
+  const dispatch = useDispatch();
 
   const initialValues = {
     email: "",
@@ -18,14 +22,14 @@ function Signup() {
     Password: "",
     City: "",
     Country: phone,
-
     PhoneNumber: "",
     Salutation: "",
     termsAndConditions: false,
   };
-
+  const navigate = useNavigate();
   const onSubmit = (values) => {
-    console.log("data values", values);
+    dispatch(AddNewData(values));
+    navigate("/login");
   };
   const validationSchema = Yup.object({
     fname: Yup.string()
@@ -91,8 +95,6 @@ function Signup() {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
-                // validateOnChange={false}
-                // validateOnBlur={false}
               >
                 <Form>
                   <div className="signUp-form">
@@ -177,14 +179,11 @@ function Signup() {
                       <label htmlFor="Country" className="label">
                         Country
                       </label>
-
                       <PhoneInput
-                        name="Country"
-                        // onChange={(value) => {
-                        //   initialValues.Country = value;
-                        // }}
-                        onChange={setPhone}
                         value={phone}
+                        onChange={(value) => {
+                          setPhone(value);
+                        }}
                       />
                     </div>
                     <div className=" col-9 ">
