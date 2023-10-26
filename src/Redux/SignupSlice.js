@@ -5,6 +5,7 @@ export const AddNewData = createAsyncThunk("AddNewData", async (Newdata) => {
   const ConfigData = {
     method: "POST",
     url: `https://family-market-app.onrender.com/signup`,
+    // url: "https://api-dev.recounts.com/api/v1/users",
     headers: {
       "Content-Type": "application/json",
     },

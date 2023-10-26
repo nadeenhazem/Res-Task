@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../App.css";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import TextError from "./TextError";
-import * as Yup from "yup";
+
 import logo from "../img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,38 +10,70 @@ function Login() {
   const UserData = useSelector((state) => state.signup);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const initialValues = {
-    email: "",
-    Password: "",
-    RememberMe: false,
-  };
-
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
-
-  const onSubmit = (values) => {
-    navigate("/");
-    console.log(values);
-  };
-  const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid Email Formate !").required("Required!"),
-    Password: Yup.string()
-      .required("Please enter a password")
-
-      .min(8, "Password must have at least 8 characters")
-
-      .matches(/[0-9]/, "Your password must have at least 1  number ")
-      .matches(
-        /[a-z]/,
-        "Your password must have at least 1   lowercase character "
-      )
-      .matches(
-        /[A-Z]/,
-        "Your password must have at least 1   uppercase character "
-      ),
+  const GetSignUp = UserData.data;
+  const [isChecked, setIsChecked] = useState(false);
+  const [LoginUser, setLoginUser] = useState({
+    email: "",
+    password: "",
+    RememberMe: isChecked,
   });
+  const [errors, setErrors] = useState({
+    passwordErr: null,
+  });
+  const [saveAccess, setSaveAccess] = useState([]);
 
+  const changeData = (e) => {
+    if (e.target.name === "email") {
+      setLoginUser({
+        ...LoginUser,
+        email: e.target.value,
+      });
+    }
+    if (e.target.name === "password") {
+      setLoginUser({
+        ...LoginUser,
+        password: e.target.value,
+      });
+    }
+    if (e.target.name === "RememberMe") {
+      setLoginUser({
+        ...LoginUser,
+        RememberMe: !isChecked,
+      });
+      setIsChecked(!isChecked);
+    }
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const arrofemails = [];
+    const arrofPassword = [];
+    console.log(GetSignUp);
+    GetSignUp.map((Check) => {
+      arrofemails.push(Check.email);
+      arrofPassword.push(Check.Password);
+    });
+
+    console.log(arrofemails.indexOf(LoginUser.email), "emails");
+    console.log(arrofPassword.indexOf(LoginUser.password), "emails");
+
+    setErrors({
+      ...errors,
+
+      passwordErr:
+        arrofemails.indexOf(LoginUser.email) !==
+          arrofPassword.indexOf(LoginUser.password) ||
+        !arrofPassword.includes(LoginUser.password) ||
+        !arrofemails.includes(LoginUser.email)
+          ? "email or  Password are Incorrect"
+          : (navigate("/"),
+            setSaveAccess((saveAccess) => (saveAccess = LoginUser))),
+    });
+  };
+  console.log(LoginUser);
   return (
     <div className="container-fluid">
       <div className="row justify-content-end">
@@ -69,75 +99,67 @@ function Login() {
               <hr className="signUp-line" />
             </div>
             <div>
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-              >
-                <Form>
-                  <div className="signUp-form mx-4 mb-3">
-                    <label htmlFor="email" className="label">
-                      E-Mail<span className="required mx-1">*</span>
+              <form>
+                <div className="signUp-form mx-4 mb-3">
+                  <label htmlFor="email" className="label">
+                    E-Mail<span className="required mx-1">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="mail@website.com"
+                    className="form-Field email-field"
+                    onChange={(e) => changeData(e)}
+                    name="email"
+                  />
+                </div>
+
+                <div className="signUp-form  mx-4">
+                  <label htmlFor="Password" className="label">
+                    Password <span className="required">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-Field email-field"
+                    placeholder="Password"
+                    onChange={(e) => changeData(e)}
+                    name="password"
+                  />
+
+                  <p className="text-danger"> {errors.passwordErr} </p>
+                </div>
+                <div className="d-flex mx-4  my-3 justify-content-between ">
+                  <div className="signUp-form   ">
+                    <label>
+                      <input
+                        type="checkbox"
+                        id="RememberMe"
+                        name="RememberMe"
+                        onChange={(e) => changeData(e)}
+                      />
                     </label>
-                    <Field
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="mail@website.com"
-                      className="form-Field email-field"
-                    />
-
-                    <ErrorMessage name="email" component={TextError} />
                   </div>
+                  <span>
+                    <Link
+                      className="text-muted text-monospace"
+                      style={{ textDecoration: "underline" }}
+                    >
+                      Forget Password
+                    </Link>
+                  </span>
+                </div>
 
-                  <div className="signUp-form  mx-4">
-                    <label htmlFor="Password" className="label">
-                      Password <span className="required">*</span>
-                    </label>
-                    <Field
-                      type="text"
-                      id="Password"
-                      name="Password"
-                      className="form-Field email-field"
-                      placeholder="Password"
-                    />
-                    <ErrorMessage name="Password" component={TextError} />
-                  </div>
-                  <div className="d-flex mx-4  my-3 justify-content-between ">
-                    <div className="signUp-form   ">
-                      <label>
-                        <Field
-                          type="checkbox"
-                          name="RememberMe"
-                          className="cursor-pointer"
-                        />
-                        Remember Me
-                      </label>
-                    </div>
-                    <span>
-                      <Link
-                        className="text-muted text-monospace"
-                        style={{ textDecoration: "underline" }}
-                      >
-                        Forget Password
-                      </Link>
-                    </span>
-                  </div>
+                <button
+                  type="submit"
+                  className="main-btn btn-Submit mx-3 mb-4 "
+                  onClick={handleChange}
+                >
+                  Login
+                </button>
+                <button type="button" className="main-btn btn-guest mx-3 mb-4 ">
+                  Continue as a guest
+                </button>
+              </form>
 
-                  <button
-                    type="submit"
-                    className="main-btn btn-Submit mx-3 mb-4 "
-                  >
-                    Login
-                  </button>
-                  <button
-                    type="button"
-                    className="main-btn btn-guest mx-3 mb-4 "
-                  >
-                    Continue as a guest
-                  </button>
-                </Form>
-              </Formik>
               <div className="mx-3">
                 <div className="d-flex mx-1 justify-content-md-start justify-content-center">
                   <span> Not registered yet? </span>

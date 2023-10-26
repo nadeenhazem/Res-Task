@@ -29,7 +29,7 @@ function Signup() {
   const navigate = useNavigate();
   const onSubmit = (values) => {
     dispatch(AddNewData(values));
-    navigate("/login");
+    // navigate("/login");
   };
   const validationSchema = Yup.object({
     fname: Yup.string()
@@ -93,6 +93,7 @@ function Signup() {
             <div>
               <Formik
                 initialValues={initialValues}
+                enableReinitialize
                 validationSchema={validationSchema}
                 onSubmit={onSubmit}
               >
@@ -179,12 +180,8 @@ function Signup() {
                       <label htmlFor="Country" className="label">
                         Country
                       </label>
-                      <PhoneInput
-                        value={phone}
-                        onChange={(value) => {
-                          setPhone(value);
-                        }}
-                      />
+
+                      <PhoneInput value={phone} onChange={setPhone} />
                     </div>
                     <div className=" col-9 ">
                       <label htmlFor="PhoneNumber" className="label">
@@ -250,8 +247,8 @@ function Signup() {
                       className="required check-style"
                       style={{ fontSize: "12px" }}
                     >
-                      "Add your date of birth if you want receive FREE gifts
-                      in your birthday"
+                      "Add your date of birth if you want receive FREE gifts in
+                      your birthday"
                     </div>
                     <label>
                       <Field
